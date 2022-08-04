@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+    test-db:
+        image: postgres
+        ports:
+            - 3333:5432
+        env_file:
+            - .env.test
+        networks:
+            - testNetwork
+
+networks:
+    testNetwork:
