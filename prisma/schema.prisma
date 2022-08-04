@@ -28,6 +28,7 @@ model Pool {
   id           Int            @id @default(autoincrement())
   name         String
   desc         String?
+  closed       Boolean        @default(false)
   ownerId      Int
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @default(now())
