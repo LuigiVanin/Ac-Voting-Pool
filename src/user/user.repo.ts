@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Global, Injectable } from '@nestjs/common';
 import { SignUpDto } from 'src/auth/dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 

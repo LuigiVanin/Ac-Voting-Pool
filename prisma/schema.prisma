@@ -22,7 +22,7 @@ model User {
   Pool         Pool[]
   Participants Participants[]
 
-  @@map("user")
+  @@map("users")
 }
 
 model Pool {
@@ -37,7 +37,7 @@ model Pool {
   Participants Participants[]
 
   @@unique([ownerId, name])
-  @@map("pool")
+  @@map("pools")
 }
 
 model Participants {
@@ -59,4 +59,6 @@ model Votes {
   votedId Int
   owner   Participants  @relation("owner", fields: [ownerId], references: [id])
   voted   Participants? @relation("voted", fields: [votedId], references: [id])
+
+  @@map("votes")
 }
