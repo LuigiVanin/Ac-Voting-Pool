@@ -3,6 +3,7 @@ import {
     ForbiddenException,
     NotFoundException,
     Injectable,
+    ConflictException,
 } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import * as bcrypt from 'bcrypt';
@@ -20,9 +21,8 @@ export class AuthService {
                 email: userData.email,
                 name: userData.name,
             });
-            console.log(users);
             if (users) {
-                throw new BadRequestException(
+                throw new ConflictException(
                     'Já existentem usuários com esse nome ou email',
                 );
             }
@@ -42,7 +42,6 @@ export class AuthService {
             const user = await this.repo.getUserByEmailOrName({
                 email: login.email,
             });
-            console.log(user);
             if (!user) {
                 throw new NotFoundException('Email não existe');
             }

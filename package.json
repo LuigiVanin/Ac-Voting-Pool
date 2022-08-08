@@ -20,8 +20,8 @@
         "test:watch": "jest --watch",
         "test:cov": "jest --coverage",
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-        "test:e2e": "npm run db:up && dotenv -e .env.test prisma migrate deploy && jest --detectOpenHandles --setupFiles ../.env.test --config ./test/jest-e2e.json && npm run db:down",
-        "test:e2e:dev": "npm run db:up && dotenv -e .env.test prisma migrate deploy && jest --detectOpenHandles --setupFiles ../.env.test --config ./test/jest-e2e.json --watch ./test/app.e2e-spec.ts && npm run db:down"
+        "test:e2e": "npm run db:up && dotenv -e .env.test prisma migrate deploy && jest --setupFiles ../.env.test --config ./test/jest-e2e.json && npm run db:down",
+        "test:e2e:dev": "npm run db:up && jest --setupFiles ../.env.test --config ./test/jest-e2e.json --watch ./test/pool.e2e-spec.ts && npm run db:down"
     },
     "dependencies": {
         "@nestjs/class-transformer": "^0.4.0",
@@ -40,10 +40,12 @@
         "rxjs": "^7.2.0"
     },
     "devDependencies": {
+        "@faker-js/faker": "^7.3.0",
         "@nestjs/cli": "^8.0.0",
         "@nestjs/schematics": "^8.0.0",
         "@nestjs/testing": "^8.0.0",
         "@types/bcrypt": "^5.0.0",
+        "@types/dotenv": "^8.2.0",
         "@types/express": "^4.17.13",
         "@types/jest": "27.5.0",
         "@types/jsonwebtoken": "^8.5.8",
@@ -52,6 +54,7 @@
         "@typescript-eslint/eslint-plugin": "^5.0.0",
         "@typescript-eslint/parser": "^5.0.0",
         "cross-env": "^7.0.3",
+        "dotenv": "^16.0.1",
         "dotenv-cli": "^6.0.0",
         "eslint": "^8.0.1",
         "eslint-config-prettier": "^8.3.0",

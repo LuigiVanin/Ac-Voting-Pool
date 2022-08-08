@@ -1,15 +1,16 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { GetUser } from 'src/auth/decorators';
 import { JwtGuard } from 'src/auth/guards';
 import { AuthUser } from 'src/interfaces/user';
 import { CreatePoolDto } from './dto/createPool.dto';
+import { ParticipantsList } from './dto/participantsList.dto';
+import { PoolOwnerGuard } from './guards/poolOwner.guard';
 import { PoolService } from './pool.service';
 
+@UseGuards(JwtGuard)
 @Controller('pool')
 export class PoolController {
     constructor(private poolService: PoolService) {}
-
-    @UseGuards(JwtGuard)
     @Post('')
     async createPool(
         @GetUser() user: AuthUser,
@@ -17,5 +18,25 @@ export class PoolController {
     ) {
         console.log(poolData);
         return this.poolService.create(user, poolData);
+    }
+
+    @Get('')
+    async getPoolFromUser(@GetUser() user: AuthUser) {
+        return await this.poolService.getFromUser(user);
+    }
+
+    @Get(':id')
+    async getPoolById(@Param('id') id: number) {
+        console.log(id);
+        return this.poolService.getPool(id);
+    }
+
+    @Post(':id')
+    @UseGuards(JwtGuard, PoolOwnerGuard)
+    async addParticipants(
+        @Param('id') id: number,
+        @Body() listIds: ParticipantsList,
+    ) {
+        return await this.poolService.addParticipants(id, listIds);
     }
 }

@@ -27,4 +27,58 @@ export class PoolRepo {
             },
         });
     }
+
+    async getByUserId(userId: number) {
+        return await this.prisma.pool.findMany({
+            where: {
+                Participants: {
+                    some: { userId },
+                },
+            },
+            include: {
+                Participants: {
+                    select: {
+                        user: {
+                            select: {
+                                email: true,
+                                id: true,
+                                name: true,
+                                imageUrl: true,
+                                isInvited: true,
+                            },
+                        },
+                    },
+                },
+            },
+        });
+    }
+
+    async getById(id: number) {
+        return await this.prisma.pool.findUnique({
+            where: {
+                id,
+            },
+            include: {
+                Participants: {
+                    select: {
+                        user: {
+                            select: {
+                                email: true,
+                                id: true,
+                                name: true,
+                                imageUrl: true,
+                                isInvited: true,
+                            },
+                        },
+                    },
+                },
+            },
+        });
+    }
+
+    async addParticipants(poolId: number, usersIdArray: number[]) {
+        return await this.prisma.participants.createMany({
+            data: [...usersIdArray.map((id) => ({ poolId, userId: id }))],
+        });
+    }
 }

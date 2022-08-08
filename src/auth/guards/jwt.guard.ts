@@ -42,7 +42,7 @@ export class JwtGuard implements CanActivate {
                 err instanceof jwt.JsonWebTokenError ||
                 err instanceof SyntaxError
             ) {
-                throw new BadRequestException('Token mal formatado');
+                throw new UnauthorizedException('Token mal formatado');
             }
             return false;
         }

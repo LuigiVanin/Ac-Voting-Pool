@@ -49,6 +49,7 @@ model Participants {
   vote   Votes?  @relation("owner")
   voted  Votes[] @relation("voted")
 
+  @@unique([poolId, userId])
   @@map("participants")
 }
 
@@ -60,5 +61,6 @@ model Votes {
   owner   Participants  @relation("owner", fields: [ownerId], references: [id])
   voted   Participants? @relation("voted", fields: [votedId], references: [id])
 
+  @@unique([ownerId, poolId])
   @@map("votes")
 }

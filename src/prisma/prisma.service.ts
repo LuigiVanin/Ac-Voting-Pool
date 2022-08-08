@@ -18,7 +18,7 @@ export class PrismaService extends PrismaClient {
     async cleanDb() {
         await this.$transaction([
             this.$executeRaw`TRUNCATE TABLE votes CASCADE`,
-            this.$executeRaw`TRUNCATE TABLE partipants CASCADE`,
+            this.$executeRaw`TRUNCATE TABLE participants CASCADE`,
             this.$executeRaw`TRUNCATE TABLE pools CASCADE`,
             this.$executeRaw`TRUNCATE TABLE users CASCADE`,
         ]);
