@@ -38,6 +38,7 @@ export class PoolRepo {
             include: {
                 Participants: {
                     select: {
+                        id: true,
                         user: {
                             select: {
                                 email: true,
@@ -61,6 +62,7 @@ export class PoolRepo {
             include: {
                 Participants: {
                     select: {
+                        id: true,
                         user: {
                             select: {
                                 email: true,
@@ -79,6 +81,17 @@ export class PoolRepo {
     async addParticipants(poolId: number, usersIdArray: number[]) {
         return await this.prisma.participants.createMany({
             data: [...usersIdArray.map((id) => ({ poolId, userId: id }))],
+        });
+    }
+
+    async updatePoolClose(poolId: number) {
+        return await this.prisma.pool.update({
+            where: {
+                id: poolId,
+            },
+            data: {
+                closed: true,
+            },
         });
     }
 }

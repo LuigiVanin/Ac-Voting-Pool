@@ -1,4 +1,5 @@
 import {
+    BadRequestException,
     CanActivate,
     ExecutionContext,
     Injectable,
@@ -20,12 +21,21 @@ export class PoolOwnerGuard implements CanActivate {
         id = parseInt(id);
         try {
             console.log(id, user.id);
-            const { ownerId } = await this.prisma.pool.findUnique({
+            const pool = await this.prisma.pool.findUnique({
                 where: {
                     id,
                 },
             });
-            if (ownerId !== user.id) {
+            if (!pool) {
+                throw new BadRequestException('Essa pool não existe');
+            }
+            if (
+                ['POST', 'PUT', 'PATCH', 'DELETE'].includes(request.method) &&
+                pool.closed
+            ) {
+                return false;
+            }
+            if (pool.ownerId !== user.id) {
                 return false;
             }
             return true;

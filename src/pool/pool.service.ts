@@ -1,9 +1,11 @@
 import {
     BadRequestException,
     ConflictException,
+    ForbiddenException,
     Injectable,
     NotFoundException,
 } from '@nestjs/common';
+import { Participants } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { PoolData } from 'src/interfaces/pool';
 import { AuthUser } from 'src/interfaces/user';
@@ -74,6 +76,18 @@ export class PoolService {
                 throw new BadRequestException();
             }
             throw err;
+        }
+    }
+
+    async closePool(id: number) {
+        return await this.repo.updatePoolClose(id);
+    }
+
+    async quitPool(poolId: number, participant: Participants) {
+        if (participant.poolId !== poolId) {
+            throw new ForbiddenException(
+                'Usuário não pode sair de pool que não está',
+            );
         }
     }
 }

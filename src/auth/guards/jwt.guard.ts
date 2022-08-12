@@ -35,6 +35,7 @@ export class JwtGuard implements CanActivate {
             if (user.email !== jwtData.email) {
                 throw new UnauthorizedException('wrong email');
             }
+            console.log('usuário logado: ', user);
             request.user = user;
             return true;
         } catch (err) {

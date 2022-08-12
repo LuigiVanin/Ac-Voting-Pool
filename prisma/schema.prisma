@@ -41,13 +41,14 @@ model Pool {
 }
 
 model Participants {
-  id     Int     @id @default(autoincrement())
-  poolId Int
-  pool   Pool    @relation(fields: [poolId], references: [id])
-  userId Int
-  user   User    @relation(fields: [userId], references: [id])
-  vote   Votes?  @relation("owner")
-  voted  Votes[] @relation("voted")
+  id           Int     @id @default(autoincrement())
+  alreadyVoted Boolean @default(false)
+  poolId       Int
+  pool         Pool    @relation(fields: [poolId], references: [id])
+  userId       Int
+  user         User    @relation(fields: [userId], references: [id])
+  vote         Votes?  @relation("owner")
+  voted        Votes[] @relation("voted")
 
   @@unique([poolId, userId])
   @@map("participants")

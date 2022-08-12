@@ -90,7 +90,7 @@ describe('Pool (e2e)', () => {
 
     describe('Test getting pools', () => {
         it('Testing getting pools from user', async () => {
-            const pool = await poolFactory.createPool(user.id);
+            await poolFactory.createPool(user.id);
             return pactum
                 .spec()
                 .get('/pool')
