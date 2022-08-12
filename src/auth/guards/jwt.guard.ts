@@ -20,7 +20,7 @@ export class JwtGuard implements CanActivate {
             throw new BadRequestException('É Necessário token de autenticação');
         }
         if (!/^Bearer /.test(authorization)) {
-            throw new BadRequestException('Token mal formatado');
+            throw new UnauthorizedException('Token mal formatado');
         }
         const token = authorization.replace('Bearer', '').trim() as string;
         try {
@@ -35,7 +35,6 @@ export class JwtGuard implements CanActivate {
             if (user.email !== jwtData.email) {
                 throw new UnauthorizedException('wrong email');
             }
-            console.log('usuário logado: ', user);
             request.user = user;
             return true;
         } catch (err) {
@@ -45,7 +44,7 @@ export class JwtGuard implements CanActivate {
             ) {
                 throw new UnauthorizedException('Token mal formatado');
             }
-            return false;
+            throw err;
         }
     }
 }

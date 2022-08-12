@@ -16,16 +16,15 @@ export class PoolParticipantGuard implements CanActivate {
         const request = context.switchToHttp().getRequest();
         let { id } = request.params;
         const { user } = request;
-        if (!id) {
-            return false;
-        }
         id = parseInt(id);
+        if (!id || isNaN(id)) {
+            throw new BadRequestException('Mal formatado');
+        }
         try {
             const participant = await this.repo.getParticipantByUserIdAndPoolId(
                 id,
                 user.id,
             );
-            console.log(participant);
             if (!participant) {
                 throw new ForbiddenException(
                     'Você não pertence a essa pool ou pool não existe',

@@ -11,12 +11,10 @@ export class VoteService {
     constructor(private prisma: PrismaService, private repo: VoteRepo) {}
 
     async vote(idParticipantToVote: number, poolId: number, userId: number) {
-        console.log(idParticipantToVote);
         const [votedParticipant, voteOwner] = await Promise.all([
             this.repo.getParticipantById(idParticipantToVote),
             this.repo.getParticipantByUserIdAndPoolId(poolId, userId),
         ]);
-        console.log(votedParticipant, voteOwner);
         if (voteOwner.alreadyVoted) {
             throw new ForbiddenException('Você já votou');
         }

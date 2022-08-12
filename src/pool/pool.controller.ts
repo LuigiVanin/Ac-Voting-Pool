@@ -27,7 +27,6 @@ export class PoolController {
         @GetUser() user: AuthUser,
         @Body() poolData: CreatePoolDto,
     ) {
-        console.log(poolData);
         return this.poolService.create(user, poolData);
     }
 
@@ -37,8 +36,8 @@ export class PoolController {
     }
 
     @Get(':id')
+    @UseGuards(JwtGuard, PoolParticipantGuard)
     async getPoolById(@Param('id') id: number) {
-        console.log(id);
         return this.poolService.getPool(id);
     }
 

@@ -21,7 +21,7 @@
         "test:cov": "jest --coverage",
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
         "test:e2e": "npm run db:up && dotenv -e .env.test prisma migrate deploy && jest --setupFiles ../.env.test --config ./test/jest-e2e.json && npm run db:down",
-        "test:e2e:dev": "npm run db:up && jest --setupFiles ../.env.test --config ./test/jest-e2e.json --watch ./test/pool.e2e-spec.ts && npm run db:down"
+        "test:e2e:dev": "npm run db:up && jest --setupFiles ../.env.test --config ./test/jest-e2e.json --watch ./test/app.e2e-spec.ts && npm run db:down"
     },
     "dependencies": {
         "@nestjs/class-transformer": "^0.4.0",

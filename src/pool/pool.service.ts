@@ -55,6 +55,9 @@ export class PoolService {
 
     async addParticipants(poolId: number, usersList: ParticipantsList) {
         try {
+            usersList.users.forEach((id) => {
+                if (isNaN(id)) throw new BadRequestException();
+            });
             let { Participants: participants } = await this.repo.getById(
                 poolId,
             );
@@ -62,7 +65,6 @@ export class PoolService {
             participants.forEach((item) => {
                 idMap.set(item.user.id, true);
             });
-            console.log(participants);
             const usersIdToAdd = usersList.users.filter((id) => {
                 return !idMap.get(id) ? true : false;
             });
@@ -81,13 +83,5 @@ export class PoolService {
 
     async closePool(id: number) {
         return await this.repo.updatePoolClose(id);
-    }
-
-    async quitPool(poolId: number, participant: Participants) {
-        if (participant.poolId !== poolId) {
-            throw new ForbiddenException(
-                'Usuário não pode sair de pool que não está',
-            );
-        }
     }
 }

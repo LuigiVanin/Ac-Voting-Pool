@@ -13,12 +13,15 @@ export class PoolFactory {
     }
 
     async createPool(ownerId: number) {
-        return await this.db.pool.create({
+        const poolData = await this.db.pool.create({
             data: {
                 ownerId,
                 ...this.generatePoolData(),
             },
         });
+
+        await this.addParticipant(poolData.id, ownerId);
+        return poolData;
     }
 
     async inspectPool(poolName: string, userId: number) {
@@ -36,6 +39,15 @@ export class PoolFactory {
                 pool: {
                     name: poolName,
                 },
+                userId,
+            },
+        });
+    }
+
+    async addParticipant(poolId: number, userId: number) {
+        return await this.db.participants.create({
+            data: {
+                poolId,
                 userId,
             },
         });
