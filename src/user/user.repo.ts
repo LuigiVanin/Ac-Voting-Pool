@@ -29,4 +29,8 @@ export class UserRepo {
             },
         });
     }
+
+    async getAll() {
+        return await this.prisma.user.findMany({});
+    }
 }

@@ -63,6 +63,7 @@ export class PoolRepo {
                 Participants: {
                     select: {
                         id: true,
+                        alreadyVoted: true,
                         user: {
                             select: {
                                 email: true,

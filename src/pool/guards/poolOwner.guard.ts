@@ -25,7 +25,6 @@ export class PoolOwnerGuard implements CanActivate {
             throw new BadRequestException('Mal formatado');
         }
         try {
-            console.log(id, user.id);
             const [pool, participant] = await Promise.all([
                 this.prisma.pool.findUnique({
                     where: {
