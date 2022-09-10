@@ -2,7 +2,7 @@ import { IsEmail, IsNotEmpty, IsString } from '@nestjs/class-validator';
 
 export class SignInDto {
     @IsNotEmpty()
-    @IsEmail()
+    // @IsEmail()
     email: string;
 
     @IsNotEmpty()

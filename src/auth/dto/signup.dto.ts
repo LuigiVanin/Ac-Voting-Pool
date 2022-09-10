@@ -1,6 +1,7 @@
 import {
     IsEmail,
     IsNotEmpty,
+    IsOptional,
     IsString,
     IsUrl,
     Matches,
@@ -16,8 +17,8 @@ export class SignUpDto {
     @IsEmail()
     email: string;
 
-    @IsNotEmpty()
-    @Matches(/^(http|https):\/\/[^ "]+$/)
+    @IsOptional()
+    @Matches(/^(http|https|Http|Https):\/\/[^ "]+$/)
     @IsUrl()
     imageUrl: string;
 

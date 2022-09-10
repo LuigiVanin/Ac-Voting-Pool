@@ -7,15 +7,20 @@ import {
 } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import * as bcrypt from 'bcrypt';
-import { UserRepo } from 'src/user/user.repo';
-import { SignInDto, SignUpDto } from './dto';
 import * as jwt from 'jsonwebtoken';
 import { ConfigService } from '@nestjs/config';
+import * as Joi from 'joi';
+import { UserRepo } from 'src/user/user.repo';
+import { generateRandomUserAvatar } from '../helpers/utils';
+import { SignInDto, SignUpDto } from './dto';
 
 @Injectable({})
 export class AuthService {
     constructor(private repo: UserRepo, private config: ConfigService) {}
     async signUp(userData: SignUpDto) {
+        userData.imageUrl = !userData.imageUrl
+            ? generateRandomUserAvatar()
+            : userData.imageUrl;
         try {
             const users = await this.repo.getUserByEmailOrName({
                 email: userData.email,
@@ -38,12 +43,21 @@ export class AuthService {
     }
 
     async signIn(login: SignInDto) {
-        try {
-            const user = await this.repo.getUserByEmailOrName({
+        const { error } = Joi.string().email().required().validate(login.email);
+        let queryBody = {};
+        if (!error) {
+            queryBody = {
                 email: login.email,
-            });
+            };
+        } else {
+            queryBody = {
+                name: login.email,
+            };
+        }
+        try {
+            const user = await this.repo.getUserByEmailOrName(queryBody);
             if (!user) {
-                throw new NotFoundException('Email não existe');
+                throw new NotFoundException('Email ou username não existe');
             }
             if (!(await bcrypt.compare(login.password, user.password))) {
                 throw new ForbiddenException('Senha incorreta');
