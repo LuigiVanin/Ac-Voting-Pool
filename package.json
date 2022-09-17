@@ -6,9 +6,10 @@
     "private": true,
     "license": "UNLICENSED",
     "scripts": {
-        "db:up": "docker-compose up -d test-db",
-        "db:down": "docker-compose rm -s -f -v test-db",
+        "db:up": "docker-compose -f docker-compose.test.yml up -d test-db",
+        "db:down": "docker-compose -f docker-compose.test.yml rm -s -f -v test-db",
         "db:dev:setup": "dotenv -e .env.test prisma migrate deploy",
+        "db:prod:setup":"prisma migrate deploy",
         "prebuild": "rimraf dist",
         "build": "nest build",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
