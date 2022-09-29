@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+    db_service:
+        image: postgres
+        container_name: db
+        restart: always
+        env_file:
+            - .env.prod
+        ports:
+            - 3333:5432
+        volumes:
+            - pg:/var/lib/postgresql/data
+        networks:
+            - votingpool-networks
+
+    node_app:
+        container_name: node_app
+        build: .
+        env_file:
+            - .env.prod
+        ports:
+            - 5000:5000
+        command: ['npm', 'run', 'test:e2e:ci']
+        depends_on:
+            - db_service
+        networks:
+            - votingpool-networks
+
+volumes:
+    pg:
+
+networks:
+    votingpool-networks:
+        driver: bridge

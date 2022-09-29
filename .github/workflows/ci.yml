@@ -1,0 +1,26 @@
+name: Test BackEnd on push
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check Repo code
+              uses: actions/checkout@v3
+            - name: Create .env.prod file on remote machine
+              uses: SpicyPizza/create-envfile@v1
+              with:
+                  envkey_POSTGRES_USER: 'postgres'
+                  envkey_POSTGRES_PASSWORD: '1234'
+                  envkey_POSTGRES_DB: 'vootingpool__tests'
+                  envkey_DATABASE_URL: 'postgres://postgres:1234@db:5432/vootingpool__tests'
+                  envkey_JWT_SECRET: 'isso nao eh uma chave real'
+                  file_name: .env.prod
+            - name: Test code
+              run: docker-compose -f docker-compose.ci.yml up --build
+            - name: Testing install and build
+              run: npm i && npm run build
