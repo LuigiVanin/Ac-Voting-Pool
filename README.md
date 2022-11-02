@@ -8,7 +8,7 @@
 voting.pool
 </h1>
 
-Voting.pool é um app de votação 🗳️ com o front e o back sendo desenvoldido com ferramentas da linguagem JavaScript. Para ver o código do frontend acesse o [repositório](https://github.com/LuigiVanin/ac-voting.pool-front). Algumas das funções do app:
+O site voting.pool é uma plataforma que permite aos usuários realizarem votações online 🗳️. O front-end do site foi desenvolvido com a tecnologia Vue e o back-end com Nest. Com esta plataforma, os usuários podem criar e gerenciar facilmente suas próprias enquetes e questionários, além de visualizar os resultados das votações em tempo real. Para ver o código do frontend acesse o [repositório](https://github.com/LuigiVanin/ac-voting.pool-front). Algumas das funções do app:
 
 -   O app deve ser capaz de criar novos usuários.
 -   usuários podem logar e permanecer logados até efetivarem log out.
